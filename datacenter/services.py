@@ -20,12 +20,10 @@ def get_passcard_visit_info(_visit):
         duration = _visit.leaved_at - _visit.entered_at
     else:
         duration = (timezone.now() - _visit.entered_at)
-        
-    passcard_visit = get_object_or_404(Passcard, id=_visit.passcard_id)
-    if passcard_visit:
-        return {
-            "who_entered": passcard_visit.owner_name,
-            "entered_at": _visit.entered_at,
-            "duration": format_duration(duration),
-            "is_strange": is_visit_long(duration)
-        }
+    _passcard = get_object_or_404(Passcard, id=_visit.passcard_id)
+    return {
+        "who_entered": _passcard.owner_name,
+        "entered_at": _visit.entered_at,
+        "duration": format_duration(duration),
+        "is_strange": is_visit_long(duration)
+    }
